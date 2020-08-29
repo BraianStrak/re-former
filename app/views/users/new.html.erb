@@ -1,3 +1,4 @@
+ <!-- Pure HTML form
  <form action="/users" method="post" accept-charset="UTF-8">
     <label for="username">Username</label><br>
     <input type="text" id="username" name="user[username]"><br>
@@ -12,3 +13,28 @@
 
     <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 </form> 
+-->
+
+<!--
+<%= form_tag("/users", method: "post") do %>
+    <%= label_tag 'username' %>
+    <%= text_field_tag 'username' %>
+    <%= label_tag 'password' %>
+    <%= password_field_tag 'password' %>
+    <%= label_tag 'email' %>
+    <%= email_field_tag 'email' %>
+    <%= submit_tag 'Create Account'%>
+<% end %>
+-->
+
+<!-- Rebuilding the tag using the new @user created in users_controller#new
+currently we are getting all errors displayed no matter the situation-->
+<%= form_for @user do |f| %>
+<% @user.errors.full_messages.each do |error| %>
+  <li><%= error %></li><br>
+  <% end %>
+  Enter Username: <%= f.text_field :username, placeholder: "Username" %>
+  Enter Password: <%= f.password_field :password, placeholder: "Password" %>
+  Enter Email: <%= f.email_field :email, placeholder: "email" %>
+  <%= f.submit "Submit" %>
+<% end %>
